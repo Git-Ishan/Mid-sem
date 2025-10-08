@@ -17,10 +17,10 @@ pipeline {
                 script {
                     echo "Logging into Azure using Service Principal..."
                     def creds = readJSON text: AZURE_CREDENTIALS
-                    sh """
-                    az login --service-principal \
-                        -u ${creds.client_id} \
-                        -p ${creds.client_secret} \
+                    bat """
+                    az login --service-principal ^
+                        -u ${creds.client_id} ^
+                        -p ${creds.client_secret} ^
                         --tenant ${creds.tenant_id}
                     az account set --subscription ${creds.subscription_id}
                     """
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 dir("environments/${params.ENVIRONMENT}") {
                     echo "Initializing Terraform..."
-                    sh 'terraform init -upgrade'
+                    bat 'terraform init -upgrade'
                 }
             }
         }
@@ -41,8 +41,8 @@ pipeline {
             steps {
                 dir("environments/${params.ENVIRONMENT}") {
                     echo "Running Terraform Plan..."
-                    sh 'terraform plan -var="admin_password=$TF_VAR_admin_password" -out=tfplan'
-                    sh 'ls -l tfplan'
+                    bat "terraform plan -var=\"admin_password=%TF_VAR_admin_password%\" -out=tfplan"
+                    bat 'dir tfplan'
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline {
             steps {
                 dir("environments/${params.ENVIRONMENT}") {
                     echo "Applying Terraform Plan..."
-                    sh 'terraform apply -auto-approve tfplan'
+                    bat 'terraform apply -auto-approve tfplan'
                 }
             }
         }
