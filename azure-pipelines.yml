@@ -1,0 +1,77 @@
+trigger: none 
+
+pool:
+  name: default
+
+parameters:
+- name: environment
+  displayName: Environment to Deploy
+  type: string
+  default: dev
+  values:
+  - dev
+
+variables:
+  workingDir: '$(System.DefaultWorkingDirectory)/environments/${{ parameters.environment }}'
+  serviceConnection: 'azure-terraform-connection' 
+
+stages:
+- stage: Plan
+  displayName: 'Plan Terraform'
+  jobs:
+  - job: TerraformPlan
+    steps:
+    - task: TerraformInstaller@1
+      displayName: 'Install Terraform'
+
+    - task: CmdLine@2
+      displayName: 'Terraform Init'
+      inputs:
+        script: 'terraform init'
+        workingDirectory: '$(workingDir)'
+
+    - task: TerraformTask@4
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(workingDir)'
+        commandOptions: '-var="admin_password=$(TF_ADMIN_PASSWORD)" -out=tfplan'
+        environmentServiceNameAzureRM: '$(serviceConnection)'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Plan Artifact'
+      inputs:
+        targetPath: '$(workingDir)/tfplan'
+        artifact: 'tfplan'
+
+- stage: Apply
+  displayName: 'Apply Terraform'
+  dependsOn: Plan
+  jobs:
+  - job: TerraformApply
+    steps:
+    - task: TerraformInstaller@1
+      displayName: 'Install Terraform'
+
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Plan Artifact'
+      inputs:
+        buildType: 'current'
+        artifactName: 'tfplan'
+        targetPath: '$(workingDir)'
+
+    - task: CmdLine@2
+      displayName: 'Terraform Init'
+      inputs:
+        script: 'terraform init'
+        workingDirectory: '$(workingDir)'
+
+    - task: TerraformTask@4
+      displayName: 'Terraform Apply'
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(workingDir)'
+        commandOptions: '-auto-approve tfplan'
+        environmentServiceNameAzureRM: '$(serviceConnection)'
