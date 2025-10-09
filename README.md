@@ -1,11 +1,14 @@
-Configuration Structure
+###Configuration Structure
 
 To ensure scalability and maintainability, the repository follows a structured format:
+
+<img width="263" height="505" alt="1" src="https://github.com/user-attachments/assets/36ea8c28-f241-4fc8-a7b2-88ee6c63179a" />
+
+
 Repository Root contains global configuration files like versions.tf.
   Environments Directory holds isolated folders for each environment (e.g., environments/dev) with their own main.tf, variables.tf, and state files, allowing environment-specific configurations.
 Modules Directory includes reusable Terraform modules such as networking, compute, loadbalancer, and nginx. Each module has its own main.tf, variables.tf, and outputs.tf, making the setup modular and easy to manage.
 
-<img width="263" height="505" alt="1" src="https://github.com/user-attachments/assets/36ea8c28-f241-4fc8-a7b2-88ee6c63179a" />
 
 <img width="1117" height="679" alt="2" src="https://github.com/user-attachments/assets/9fec8c7f-91af-40b3-b0f8-1c93b1a53d2a" />
 
