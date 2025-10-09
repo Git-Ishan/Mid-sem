@@ -28,14 +28,11 @@ The root of the repository holds global files that apply to the whole project, l
 
 Jenkins Pipeline Flow
 
-The Groovy-based Jenkinsfile automates the Terraform workflow.
-The Environment Setup stage defines all secrets using credentials().
-The Azure Login Stage authenticates to Azure CLI using a Service Principal.
-The Terraform Init Stage runs terraform init -upgrade inside the environment directory (e.g., environments/dev).
-The Terraform Plan Stage executes terraform plan -out=tfplan, generating the plan file.
-The Terraform Apply Stage runs only if APPLY_CHANGES is true, applying the plan using terraform apply -auto-approve tfplan.
+The `Jenkinsfile` defines a parameterized pipeline, allowing the user to select the target **environment** (e.g., `dev`) and choose whether to apply changes.
 
-The pipeline ensures secure credentials handling, clear separation of stages, and controlled deployment execution.
+The pipeline begins by authenticating to Azure using the stored Service Principal. It then navigates into the selected environment's directory to execute the standard Terraform workflow: `terraform init` to prepare the workspace, followed by `terraform plan -out=tfplan` to generate a plan file. This plan is saved as a build artifact for review.
+
+A manual approval gate then pauses the pipeline, ensuring no changes are applied without explicit consent. If approved, the final stage executes `terraform apply` on the saved plan file, ensuring a controlled and predictable deployment.
 
 <img width="2220" height="1230" alt="image" src="https://github.com/user-attachments/assets/03f65b4b-20b7-4710-8007-3943d683db81" />
 
