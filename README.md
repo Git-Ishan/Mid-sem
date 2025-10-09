@@ -42,9 +42,7 @@ The pipeline ensures secure credentials handling, clear separation of stages, an
 
 
     Implementation in Azure Pipelines
-    Azure Pipelines uses a declarative YAML file (azure-pipelines.yml) and leverages built-in Azure DevOps authentication.
-    A Service Connection (e.g., meowmeow) is created under Project Settings using Azure Resource Manager, securely storing Service Principal credentials and permissions — eliminating the need for manual JSON credential handling as in Jenkins.
-    Sensitive data such as the admin password is stored as Pipeline Secret Variables, ensuring secure and seamless access during Terraform operations.
+    The Azure DevOps pipeline is defined declaratively in the azure-pipelines.yml file. Authentication is managed through a Service Connection (named azure-terraform-connection in this project) created in the Project Settings. This securely handles all permissions and eliminates the manual JSON credential handling required by Jenkins. Other secrets, like the virtual machine's admin_password, are stored as Pipeline Secret Variables to ensure they are never exposed in logs.
 
 
 The `azure-pipelines.yml` file defines a two-stage process that runs on a self-hosted agent. The **Plan** stage first installs Terraform, then runs `terraform init` to prepare the project. Afterwards, it executes `terraform plan`, using a secret variable for the VM password, and saves the resulting `tfplan` file as a pipeline artifact.
