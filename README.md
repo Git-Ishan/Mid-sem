@@ -47,12 +47,9 @@ The pipeline ensures secure credentials handling, clear separation of stages, an
     Sensitive data such as the admin password is stored as Pipeline Secret Variables, ensuring secure and seamless access during Terraform operations.
 
 
-Azure Pipelines YAML Flow
+The `azure-pipelines.yml` file defines a two-stage process that runs on a self-hosted agent. The **Plan** stage first installs Terraform, then runs `terraform init` to prepare the project. Afterwards, it executes `terraform plan`, using a secret variable for the VM password, and saves the resulting `tfplan` file as a pipeline artifact.
 
-The YAML file defines multiple stages executed on a Linux-based agent.
-The PrepareAndPlan stage installs the required Terraform version using the TerraformInstaller task, logs in via the AzureCLI task using the configured Service Connection, and runs terraform init, validate, and plan to generate the tfplan artifact.
-The DeploymentApproval stage serves as a manual gate, typically tied to an Azure Environment with an Approval Check, ensuring a team member reviews and approves the plan before deployment.
-Finally, the ApplyDeployment stage runs only after successful completion and approval, executing terraform apply -auto-approve tfplan to implement the approved infrastructure changes.
+The **Apply** stage then begins by downloading the `tfplan` artifact from the previous stage. It runs `terraform init` again to set up the environment and finally executes `terraform apply` on the downloaded plan, ensuring that only the exact changes reviewed in the plan are deployed to Azure.
 
 <img width="1120" height="503" alt="yaml final" src="https://github.com/user-attachments/assets/da9135ff-4fbc-473c-9c51-baf0e2ba65ae" />
 
