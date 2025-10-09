@@ -5,10 +5,6 @@ To ensure scalability and maintainability, the repository follows a structured f
 <img width="263" height="505" alt="1" src="https://github.com/user-attachments/assets/36ea8c28-f241-4fc8-a7b2-88ee6c63179a" />
 
 
-Of course. Your current description is very good and accurate. Here is a slightly rephrased version that you can use instead.
-
-This version emphasizes the purpose of each directory a bit more.
-
 This repository uses a standard modular structure to keep the code organized and reusable.
 
 The modules directory contains the core, reusable building blocks for the infrastructure, such as networking, compute (for the virtual machines), and the loadbalancer.
