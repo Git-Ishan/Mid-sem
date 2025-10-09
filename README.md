@@ -59,3 +59,13 @@ Finally, the ApplyDeployment stage runs only after successful completion and app
 <img width="320" height="595" alt="last" src="https://github.com/user-attachments/assets/32855d89-683e-4d48-af76-7240c737e32e" />
 
 <img width="1112" height="613" alt="yaml pipeline" src="https://github.com/user-attachments/assets/cdb9e6c6-16db-40ce-8ec3-1abbe0ff4274" />
+
+
+## 📖 My Journey & Key Learnings
+
+This project was a significant learning experience involving extensive real-world troubleshooting:
+
+* **Cross-Platform Challenges:** The project was initially attempted on Linux and later transitioned to a fresh Windows environment, which required debugging `PATH` variable issues for tools like the Azure CLI and Docker.
+* **Terraform Debugging:** I encountered and solved a wide variety of Terraform errors, from simple typos and inconsistent dependency lock files (`terraform init -upgrade`) to complex state file corruption that required manual resource deletion in Azure.
+* **CI/CD Troubleshooting:** Setting up the pipelines involved challenges like installing missing Marketplace extensions in Azure DevOps, configuring a self-hosted agent to bypass free tier limitations, and fixing permissions by correctly assigning IAM roles (`Contributor`) to the Service Principal.
+* **Git Repository Management:** A key lesson was realizing a missing `.gitignore` file caused the repository to bloat to over 100MB. I learned to clean the repository history using commands like `git rm --cached`, `git reset`, and `git push --force`.
