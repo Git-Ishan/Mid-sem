@@ -21,9 +21,10 @@ The root of the repository holds global files that apply to the whole project, l
 <img width="1120" height="682" alt="4" src="https://github.com/user-attachments/assets/0fada871-6d0c-4291-8ba2-358278202727" />
 
     Implementation in Jenkins
-    Jenkins is configured as a controller node with the required Pipeline Utility Steps Plugin, along with Git and Azure CLI for automation.
-    For Azure authentication, Service Principal credentials (Client ID, Secret, Tenant ID, Subscription ID) are stored securely in Jenkins using the Credentials Manager as a single JSON “Secret Text”. A Groovy script then parses these values and runs the az login --service-principal command.
-    Other sensitive details, like VM administrator passwords, are also stored as Secret Text credentials and are masked in the pipeline logs for security.
+    For this project, Jenkins was installed and configured as a controller node directly on a Windows machine.
+    To allow Jenkins to authenticate with Azure, an Azure Service Principal was created using the Azure CLI, and its JSON credential was stored securely within Jenkins's Credentials Manager as 'Secret Text'.
+    The virtual machine's administrator password was also stored as a separate secret credential to ensure no sensitive information was exposed in the pipeline logs.
+    A key part of the implementation was adapting the Jenkinsfile to run on a Windows-based agent by converting all shell (sh) commands to their batch (bat) equivalents.
 
 Jenkins Pipeline Flow
 
