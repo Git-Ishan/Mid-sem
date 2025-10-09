@@ -1,4 +1,4 @@
-###Configuration Structure
+<h2>Configuration Structure</h2>
 
 To ensure scalability and maintainability, the repository follows a structured format:
 
