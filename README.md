@@ -5,9 +5,17 @@ To ensure scalability and maintainability, the repository follows a structured f
 <img width="263" height="505" alt="1" src="https://github.com/user-attachments/assets/36ea8c28-f241-4fc8-a7b2-88ee6c63179a" />
 
 
-Repository Root contains global configuration files like versions.tf.
-  Environments Directory holds isolated folders for each environment (e.g., environments/dev) with their own main.tf, variables.tf, and state files, allowing environment-specific configurations.
-Modules Directory includes reusable Terraform modules such as networking, compute, loadbalancer, and nginx. Each module has its own main.tf, variables.tf, and outputs.tf, making the setup modular and easy to manage.
+Of course. Your current description is very good and accurate. Here is a slightly rephrased version that you can use instead.
+
+This version emphasizes the purpose of each directory a bit more.
+
+This repository uses a standard modular structure to keep the code organized and reusable.
+
+The modules directory contains the core, reusable building blocks for the infrastructure, such as networking, compute (for the virtual machines), and the loadbalancer.
+
+The environments directory contains a separate folder for each deployment target (e.g., dev). These folders are responsible for assembling the building blocks from the modules directory and providing environment-specific settings.
+
+The root of the repository holds global files that apply to the whole project, like versions.tf and the CI/CD pipeline definitions.
 
 
 <img width="1117" height="679" alt="2" src="https://github.com/user-attachments/assets/9fec8c7f-91af-40b3-b0f8-1c93b1a53d2a" />
